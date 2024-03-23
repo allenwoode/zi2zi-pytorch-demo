@@ -1,13 +1,14 @@
-from data import DatasetFromObj
-from torch.utils.data import DataLoader
-from model import Zi2ZiModel
-import os
-import sys
 import argparse
-import torch
+import math
+import os
 import random
 import time
-import math
+
+import torch
+from torch.utils.data import DataLoader
+
+from data import DatasetFromObj
+from model import Zi2ZiModel
 
 parser = argparse.ArgumentParser(description='Train')
 parser.add_argument('--experiment_dir', required=True,
@@ -33,16 +34,16 @@ parser.add_argument('--fine_tune', type=str, default=None,
                     help='specific labels id to be fine tuned')
 parser.add_argument('--inst_norm', action='store_true',
                     help='use conditional instance normalization in your model')
-parser.add_argument('--sample_steps', type=int, default=10,
+parser.add_argument('--sample_steps', type=int, default=200,
                     help='number of batches in between two samples are drawn from validation set')
-parser.add_argument('--checkpoint_steps', type=int, default=100,
+parser.add_argument('--checkpoint_steps', type=int, default=1000,
                     help='number of batches in between two checkpoints')
 parser.add_argument('--flip_labels', action='store_true',
                     help='whether flip training data labels or not, in fine tuning')
 parser.add_argument('--random_seed', type=int, default=777,
                     help='random seed for random and pytorch')
 parser.add_argument('--resume', type=int, default=None, help='resume from previous training')
-parser.add_argument('--input_nc', type=int, default=3,
+parser.add_argument('--input_nc', type=int, default=1,
                     help='number of input images channels')
 
 def chkormakedir(path):

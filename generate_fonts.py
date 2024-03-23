@@ -1,16 +1,13 @@
 
-import os
-import sys
-
 import argparse
 import json
+import os
 import random
+
 import numpy as np
 from PIL import Image, ImageFont, ImageDraw
-from fontTools.ttLib import TTFont
-
-from torchvision import transforms
 from torch import nn
+from torchvision import transforms
 
 
 def chk_mkdir(path):

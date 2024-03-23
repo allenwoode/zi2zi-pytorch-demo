@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import os
-import sys
-
 import argparse
-import numpy as np
-
-from PIL import Image, ImageFont, ImageDraw
-import json
 import collections
-import re
-from fontTools.ttLib import TTFont
-from tqdm import tqdm
+import json
+import os
 import random
+import re
 
+import numpy as np
+from PIL import Image, ImageFont, ImageDraw
+from fontTools.ttLib import TTFont
 from torch import nn
 from torchvision import transforms
+from tqdm import tqdm
 
 from utils.charset_util import processGlyphNames
 
@@ -83,6 +80,8 @@ def draw_single_char(ch, font, canvas_size, x_offset=0, y_offset=0):
 
 def draw_font2font_example(ch, src_font, dst_font, canvas_size, x_offset, y_offset, filter_hashes):
     dst_img = draw_single_char(ch, dst_font, canvas_size, x_offset, y_offset)
+    if dst_img is None:
+        return None
     # check the filter example in the hashes or not
     dst_hash = hash(dst_img.tobytes())
     if dst_hash in filter_hashes:
@@ -303,7 +302,7 @@ parser.add_argument('--mode', type=str, choices=['imgs2imgs', 'font2imgs', 'font
                          'use --src_fonts_dir and --dst_imgs for fonts2imgs mode.\n'
                          'No imgs2font mode.'
                     )
-parser.add_argument('--src_font', type=str, default=None, help='path of the source font')
+parser.add_argument('--src_font', type=str, default='charset/gbk/', help='path of the source font')
 parser.add_argument('--src_fonts_dir', type=str, default=None, help='path of the source fonts')
 parser.add_argument('--src_imgs', type=str, default=None, help='path of the source imgs')
 parser.add_argument('--dst_font', type=str, default=None, help='path of the target font')
@@ -317,8 +316,8 @@ parser.add_argument('--char_size', type=int, default=256, help='character size')
 parser.add_argument('--canvas_size', type=int, default=256, help='canvas size')
 parser.add_argument('--x_offset', type=int, default=0, help='x offset')
 parser.add_argument('--y_offset', type=int, default=0, help='y_offset')
-parser.add_argument('--sample_count', type=int, default=5000, help='number of characters to draw')
-parser.add_argument('--sample_dir', type=str, default='sample_dir', help='directory to save examples')
+parser.add_argument('--sample_count', type=int, default=200, help='number of characters to draw')
+parser.add_argument('--sample_dir', type=str, default='sample', help='directory to save examples')
 parser.add_argument('--label', type=int, default=0, help='label as the prefix of examples')
 
 args = parser.parse_args()

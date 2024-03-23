@@ -1,28 +1,22 @@
-
-from torch.utils.data import DataLoader, TensorDataset
-from model import Zi2ZiModel
+import argparse
 import os
 import sys
-import argparse
-import torch
-import random
-import time
-import math
-import numpy as np
+
 import pandas as pd
-from PIL import Image, ImageDraw, ImageFont
+import torch
 import torchvision.transforms as transforms
-from torchvision.utils import save_image, make_grid
-import time
-from tqdm import tqdm
+from PIL import Image, ImageDraw, ImageFont
+from torch.utils.data import DataLoader, TensorDataset
+
+from model import Zi2ZiModel
 
 writer_dict = {
-        '智永': 0, ' 隸書-趙之謙': 1, '張即之': 2, '張猛龍碑': 3, '柳公權': 4, '標楷體-手寫': 5, '歐陽詢-九成宮': 6,
-        '歐陽詢-皇甫誕': 7, '沈尹默': 8, '美工-崩雲體': 9, '美工-瘦顏體': 10, '虞世南': 11, '行書-傅山': 12, '行書-王壯為': 13,
-        '行書-王鐸': 14, '行書-米芾': 15, '行書-趙孟頫': 16, '行書-鄭板橋': 17, '行書-集字聖教序': 18, '褚遂良': 19, '趙之謙': 20,
-        '趙孟頫三門記體': 21, '隸書-伊秉綬': 22, '隸書-何紹基': 23, '隸書-鄧石如': 24, '隸書-金農': 25,  '顏真卿-顏勤禮碑': 26,
-        '顏真卿多寶塔體': 27, '魏碑': 28
-    }
+    '智永': 0, ' 隸書-趙之謙': 1, '張即之': 2, '張猛龍碑': 3, '柳公權': 4, '標楷體-手寫': 5, '歐陽詢-九成宮': 6,
+    '歐陽詢-皇甫誕': 7, '沈尹默': 8, '美工-崩雲體': 9, '美工-瘦顏體': 10, '虞世南': 11, '行書-傅山': 12, '行書-王壯為': 13,
+    '行書-王鐸': 14, '行書-米芾': 15, '行書-趙孟頫': 16, '行書-鄭板橋': 17, '行書-集字聖教序': 18, '褚遂良': 19, '趙之謙': 20,
+    '趙孟頫三門記體': 21, '隸書-伊秉綬': 22, '隸書-何紹基': 23, '隸書-鄧石如': 24, '隸書-金農': 25, '顏真卿-顏勤禮碑': 26,
+    '顏真卿多寶塔體': 27, '魏碑': 28
+}
 
 
 parser = argparse.ArgumentParser(description='Infer')
@@ -41,7 +35,7 @@ parser.add_argument('--embedding_num', type=int, default=40,
 parser.add_argument('--embedding_dim', type=int, default=128, help="dimension for embedding")
 parser.add_argument('--batch_size', type=int, default=1, help='number of examples in batch')
 parser.add_argument('--lr', type=float, default=0.001, help='initial learning rate for adam')
-parser.add_argument('--resume', type=int, default=140000, help='resume from previous training')
+parser.add_argument('--resume', type=int, default=10000, help='resume from previous training')
 parser.add_argument('--input_nc', type=int, default=1)
 
 parser.add_argument('--charset', type=str, choices=['s', 'm', 'l'], default='l')
