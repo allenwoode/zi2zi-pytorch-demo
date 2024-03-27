@@ -25,7 +25,7 @@ parser.add_argument('--embedding_num', type=int, default=40,
                     help="number for distinct embeddings")
 parser.add_argument('--embedding_dim', type=int, default=128, help="dimension for embedding")
 parser.add_argument('--epoch', type=int, default=100, help='number of epoch')
-parser.add_argument('--batch_size', type=int, default=16, help='number of examples in batch')
+parser.add_argument('--batch_size', type=int, default=32, help='number of examples in batch')
 parser.add_argument('--lr', type=float, default=0.001, help='initial learning rate for adam')
 parser.add_argument('--schedule', type=int, default=20, help='number of epochs to half learning rate')
 parser.add_argument('--freeze_encoder', action='store_true',
